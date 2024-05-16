@@ -19,7 +19,7 @@ export default class ManejoTabs extends Component {
         }}
       >
         <Tab.Screen
-          name="Tab1"
+          name="Inicio"
           component={Usuario1}
           options={{
             headerShown: false,
@@ -29,7 +29,7 @@ export default class ManejoTabs extends Component {
           }}
         />
                 <Tab.Screen
-          name="Tab2"
+          name="Registros"
           component={Usuario2}
           options={{
             headerShown: false,
@@ -39,7 +39,7 @@ export default class ManejoTabs extends Component {
           }}
         />
                 <Tab.Screen
-          name="Tab3"
+          name="Anuncios"
           component={Usuario3}
           options={{
             headerShown: false,

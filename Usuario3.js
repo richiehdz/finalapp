@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet, Linking } from 'react-native';
 
 export default class Usuario3 extends Component {
   constructor(props) {
@@ -25,6 +25,12 @@ export default class Usuario3 extends Component {
       }
     };
     xhr.send();
+  };
+  recargarAnuncios = () => {
+    this.fetchAnuncios();
+  };
+  openLink = () => {
+    Linking.openURL('https://finalappbestmx.000webhostapp.com/crear_anuncio.php');
   };
 
   toggleDescription = (id) => {
@@ -67,6 +73,12 @@ export default class Usuario3 extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.header}>Anuncios</Text>
+        <TouchableOpacity onPress={this.openLink} style={styles.boton}>
+          <Text style={styles.botonTexto}>Crear Anuncio</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={this.recargarAnuncios} style={styles.botonRecargar}>
+          <Text style={styles.botonTexto}>Recargar Anuncios</Text>
+        </TouchableOpacity>
         <FlatList
           data={this.state.anuncios}
           renderItem={this.renderItem}
@@ -78,6 +90,25 @@ export default class Usuario3 extends Component {
 }
 
 const styles = StyleSheet.create({
+  boton: {
+    backgroundColor: 'blue',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  botonTexto: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
+  botonRecargar: {
+    backgroundColor: 'blue',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginTop: 10,
+  },
   container: {
     flex: 1,
     padding: 16,
