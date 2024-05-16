@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, StyleSheet } from 'react-native';
 
 export default class Usuario3 extends Component {
   constructor(props) {
     super(props);
     this.state = {
       anuncios: [],
+      expandedAnuncioId: null,
     };
   }
 
@@ -19,16 +20,46 @@ export default class Usuario3 extends Component {
     xhr.open('GET', url, true);
     xhr.onreadystatechange = () => {
       if (xhr.readyState === 4 && xhr.status === 200) {
-        this.setState({ anuncios: JSON.parse(xhr.responseText) });
+        const anuncios = JSON.parse(xhr.responseText);
+        this.setState({ anuncios });
       }
     };
     xhr.send();
   };
 
+  toggleDescription = (id) => {
+    this.setState((prevState) => ({
+      expandedAnuncioId: prevState.expandedAnuncioId === id ? null : id,
+    }));
+  };
+
+  renderDescription = (descripcion, id) => {
+    const { expandedAnuncioId } = this.state;
+    if (descripcion.length > 100) {
+      if (expandedAnuncioId === id) {
+        return (
+          <Text style={styles.descripcion}>{descripcion}</Text>
+        );
+      } else {
+        return (
+          <TouchableOpacity onPress={() => this.toggleDescription(id)}>
+            <Text style={styles.descripcion}>{descripcion.substring(0, 100)}...</Text>
+            <Text style={styles.leerMas}>Leer más</Text>
+          </TouchableOpacity>
+        );
+      }
+    } else {
+      return (
+        <Text style={styles.descripcion}>{descripcion}</Text>
+      );
+    }
+  };
+
   renderItem = ({ item }) => (
     <View style={styles.anuncio}>
       <Text style={styles.titulo}>{item.titulo}</Text>
-      <Text>{item.descripcion}</Text>
+      <Text style={styles.fecha}>{new Date(item.fecha).toLocaleString()}</Text>
+      {this.renderDescription(item.descripcion, item.id)}
     </View>
   );
 
@@ -65,5 +96,17 @@ const styles = StyleSheet.create({
   titulo: {
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  fecha: {
+    marginTop: 8,
+    fontStyle: 'italic',
+    color: '#666',
+  },
+  descripcion: {
+    marginTop: 8,
+  },
+  leerMas: {
+    color: 'blue',
+    textDecorationLine: 'underline',
   },
 });
