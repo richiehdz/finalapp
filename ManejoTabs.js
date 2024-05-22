@@ -10,6 +10,9 @@ const Tab = createBottomTabNavigator();
 
 export default class ManejoTabs extends Component {
   render() {
+    const { route } = this.props;
+    const { nombreAlumno, codigoAlumno } = route.params;
+
     return (
       <Tab.Navigator
         screenOptions={{
@@ -20,32 +23,33 @@ export default class ManejoTabs extends Component {
       >
         <Tab.Screen
           name="Inicio"
-          component={Usuario1}
           options={{
             headerShown: false,
             tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons name="play" color='black' size={size} />
-              )
+              <MaterialCommunityIcons name="play" color='black' size={size} />
+            )
           }}
-        />
-                <Tab.Screen
+        >
+          {props => <Usuario1 {...props} nombreAlumno={nombreAlumno} codigoAlumno={codigoAlumno} />}
+        </Tab.Screen>
+        <Tab.Screen
           name="Registros"
           component={Usuario2}
           options={{
             headerShown: false,
             tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons name="database" color='black' size={size} />
-              )
+              <MaterialCommunityIcons name="database" color='black' size={size} />
+            )
           }}
         />
-                <Tab.Screen
+        <Tab.Screen
           name="Anuncios"
           component={Usuario3}
           options={{
             headerShown: false,
             tabBarIcon: ({ color, size }) => (
-                <MaterialCommunityIcons name="forum" color='black' size={size} />
-              )
+              <MaterialCommunityIcons name="forum" color='black' size={size} />
+            )
           }}
         />
       </Tab.Navigator>

@@ -13,10 +13,7 @@ export default class Inicio extends Component {
       <NavigationContainer>
         <Stack.Navigator>
         <Stack.Screen name="Login" component={Login} options={{headerShown:false}}/>
-          <Stack.Screen
-            name="Usuario1"
-            component={Usuario1}
-            options={{ headerShown: false }}
+          <Stack.Screen name="Usuario1" component={Usuario1} options={{ headerShown: false }}
           />
         </Stack.Navigator>
       </NavigationContainer>

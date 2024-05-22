@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { View, ImageBackground, StyleSheet } from 'react-native';
 import { Button, Input } from '@rneui/base';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import Usuario1 from './Usuario1';
 
 export default class Login extends Component {
   constructor(props) {
@@ -16,31 +13,33 @@ export default class Login extends Component {
 
   entrar = () => {
     const { correo, password } = this.state;
-    let _this=this;
-    var http = new XMLHttpRequest();
-    var url = 'http://148.202.152.33/cucei/autentificacion_siauu_temporal.php';
-    var params = 'codigo=' + encodeURIComponent(correo) + '&nip=' + encodeURIComponent(password);
-  
+    const _this = this;
+    const http = new XMLHttpRequest();
+    const url = 'http://148.202.152.33/cucei/autentificacion_siauu_temporal.php';
+    const params = 'codigo=' + encodeURIComponent(correo) + '&nip=' + encodeURIComponent(password);
+
     http.open('POST', url, true);
     http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-  
+
     http.onreadystatechange = function() {
-      if (http.readyState == 4 && http.status == 200) {
-        if (http.responseText == '0') {
-          alert('datos incorrectos');
+      if (http.readyState === 4 && http.status === 200) {
+        const responseParts = http.responseText.split(',');
+        if (responseParts[0] === '0') {
+          alert('Datos incorrectos');
         } else {
-          _this.props.navigation.navigate("Usuario1");
-          alert(http.responseText);
+          const codigoAlumno = responseParts[1];
+          const nombreAlumno = responseParts[2];
+          console.log(nombreAlumno);
+          console.log(codigoAlumno);
+
+          // Navegar a la pantalla Usuario1 (ManejoTabs) y pasar los datos como parámetros
+          _this.props.navigation.navigate("Usuario1", { nombreAlumno, codigoAlumno });
         }
       }
     };
-  
+
     http.send(params);
-  }
-  
-  
-  
-  
+  };
 
   handleCorreoChange = (correo) => {
     this.setState({ correo });
