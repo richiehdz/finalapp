@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { View, ImageBackground, StyleSheet } from 'react-native';
 import { Button, Input } from '@rneui/base';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default class Login extends Component {
   constructor(props) {
@@ -32,8 +34,29 @@ export default class Login extends Component {
           console.log(nombreAlumno);
           console.log(codigoAlumno);
 
-          // Navegar a la pantalla Usuario1 (ManejoTabs) y pasar los datos como parámetros
-          _this.props.navigation.navigate("Usuario1", { nombreAlumno, codigoAlumno });
+          if (codigoAlumno && nombreAlumno) {
+            AsyncStorage.setItem('codigoAlumno', codigoAlumno)
+              .then(() => {
+                console.log('Código de alumno guardado correctamente');
+              })
+              .catch(error => {
+                console.error('Error al guardar código de alumno:', error);
+              });
+
+            AsyncStorage.setItem('nombreAlumno', nombreAlumno)
+              .then(() => {
+                console.log('Nombre de alumno guardado correctamente');
+              })
+              .catch(error => {
+                console.error('Error al guardar nombre de alumno:', error);
+              });
+
+            // Navegar a la pantalla Usuario1 (ManejoTabs) y pasar los datos como parámetros
+            //_this.props.navigation.navigate("Usuario1", { nombreAlumno, codigoAlumno });
+            _this.props.navigation.navigate("Usuario1");
+          } else {
+            alert('Los datos de alumno no están completos');
+          }
         }
       }
     };
