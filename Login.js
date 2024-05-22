@@ -20,19 +20,27 @@ export default class Login extends Component {
     var http = new XMLHttpRequest();
     var url = 'http://148.202.152.33/cucei/autentificacion_siauu_temporal.php';
     var params = 'codigo=' + encodeURIComponent(correo) + '&nip=' + encodeURIComponent(password);
-
+  
     http.open('POST', url, true);
     http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
+  
     http.onreadystatechange = function() {
       if (http.readyState == 4 && http.status == 200) {
-        _this.props.navigation.navigate("Usuario1");
-        alert(http.responseText);
+        if (http.responseText == '0') {
+          alert('datos incorrectos');
+        } else {
+          _this.props.navigation.navigate("Usuario1");
+          alert(http.responseText);
+        }
       }
     };
-
+  
     http.send(params);
   }
+  
+  
+  
+  
 
   handleCorreoChange = (correo) => {
     this.setState({ correo });
